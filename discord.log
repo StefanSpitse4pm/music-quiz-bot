@@ -1,2 +1,34 @@
-[2025-01-22 18:36:04] [INFO    ] discord.client: logging in using static token
-[2025-01-22 18:36:05] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: 5050ae6e61c05218de08c95f86dfe160).
+[2025-01-22 20:22:01] [INFO    ] discord.client: logging in using static token
+[2025-01-22 20:22:03] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: c5e15722f672f6053504c16740c0929b).
+[2025-01-22 20:22:18] [INFO    ] discord.voice_state: Connecting to voice...
+[2025-01-22 20:22:18] [INFO    ] discord.voice_state: Starting voice handshake... (connection attempt 1)
+[2025-01-22 20:22:18] [INFO    ] discord.voice_state: Voice handshake complete. Endpoint found: rotterdam5214.discord.media
+[2025-01-22 20:22:19] [INFO    ] discord.voice_state: Voice connection complete.
+[2025-01-22 20:22:38] [ERROR   ] discord.ext.commands.bot: Ignoring exception in command pass
+Traceback (most recent call last):
+  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/core.py", line 235, in wrapped
+    ret = await coro(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/tagordo/Documents/side-projects/music-quiz-bot/bot/cogs/musicQuiz.py", line 143, in pass_song
+    await MusicQuiz.next_song(ctx)
+          ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/tagordo/Documents/side-projects/music-quiz-bot/bot/cogs/musicQuiz.py", line 207, in next_song
+    self.bot.loop.create_task(self.start_song(ctx))
+                              ^^^^^^^^^^^^^^^
+AttributeError: 'Context' object has no attribute 'start_song'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/bot.py", line 1366, in invoke
+    await ctx.command.invoke(ctx)
+  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/core.py", line 1029, in invoke
+    await injected(*ctx.args, **ctx.kwargs)  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/core.py", line 244, in wrapped
+    raise CommandInvokeError(exc) from exc
+discord.ext.commands.errors.CommandInvokeError: Command raised an exception: AttributeError: 'Context' object has no attribute 'start_song'
+[2025-01-22 20:22:39] [INFO    ] discord.player: ffmpeg process 150637 has not terminated. Waiting to terminate...
+[2025-01-22 20:22:39] [INFO    ] discord.player: ffmpeg process 150637 should have terminated with a return code of -9.
+[2025-01-22 20:23:14] [INFO    ] discord.player: ffmpeg process 150956 successfully terminated with return code of 0.
+[2025-01-22 20:23:15] [INFO    ] discord.voice_state: The voice handshake is being terminated for Channel ID 779447967924224063 (Guild ID 779447967433883699)

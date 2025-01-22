@@ -34,7 +34,7 @@ class MusicQuiz(commands.Cog):
         self.song = None
         self.game = {} 
         self.song_queue = deque()
-        self.song_queue_length = 2
+        self.song_queue_length = 15
         self.song_length = 30
         
     
@@ -73,6 +73,13 @@ class MusicQuiz(commands.Cog):
             songs = random.sample   (songs, k=self.song_queue_length)
             self.song_queue.extend(songs)
         await self.start_song(ctx)
+
+    async def join_channel(self, ctx):
+        voice_channel = ctx.author.voice.channel
+        if not ctx.voice_client:
+            await voice_channel.connect()
+        else:
+            await ctx.send("The bilster is already in the voice channel!")
 
     @commands.Cog.listener()
     async def on_message(self, message):
@@ -119,7 +126,7 @@ class MusicQuiz(commands.Cog):
 
     @commands.command(name="pass")
     async def pass_song(self, ctx):
-        """ BILSTER IS DISSAPOINTED IN YOU THAT YOU DONT KNOW """
+        """ BILSTER IS DISSAPOINTED IN YOU THAT YOU DONT KNOW THE SONG"""
         if not self.listening:
             return
         if 'passed' not in self.game[ctx.author.name] or not self.game[ctx.author.name]['passed']:
@@ -131,7 +138,7 @@ class MusicQuiz(commands.Cog):
                 for member in ctx.author.voice.channel.members:
                     if member.name != self.bot.user.name:
                         self.game[member.name]['passed'] = False
-                await ctx.send("skipping the song...")
+                await ctx.send("the bilster is skipping the song...")
                 ctx.voice_client.stop()
                 await MusicQuiz.next_song(ctx)
                 return
@@ -252,7 +259,7 @@ class MusicQuiz(commands.Cog):
                 port=3306,
                 user="root",
                 password="qwerty",
-                db="bilster",
+                db="bilster",``
                 autocommit=True
             )
             async with self.db_pool.acquire() as conn:

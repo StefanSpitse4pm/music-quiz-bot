@@ -1,2 +1,23 @@
-[2025-01-22 19:43:07] [INFO    ] discord.client: logging in using static token
-[2025-01-22 19:43:08] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: cbf7a2b3c0c253aed24180e1a5ea908f).
+[2025-01-22 20:14:53] [INFO    ] discord.client: logging in using static token
+[2025-01-22 20:14:54] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: 633e2e2c58ecb43e156ca4498a41f8e6).
+[2025-01-22 20:15:16] [ERROR   ] discord.ext.commands.bot: Ignoring exception in command musicquiz
+Traceback (most recent call last):
+  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/core.py", line 235, in wrapped
+    ret = await coro(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/tagordo/Documents/side-projects/music-quiz-bot/bot/cogs/musicQuiz.py", line 67, in musicquiz
+    await self.join_channel(ctx)
+          ^^^^^^^^^^^^^^^^^
+AttributeError: 'MusicQuiz' object has no attribute 'join_channel'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/bot.py", line 1366, in invoke
+    await ctx.command.invoke(ctx)
+  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/core.py", line 1029, in invoke
+    await injected(*ctx.args, **ctx.kwargs)  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/core.py", line 244, in wrapped
+    raise CommandInvokeError(exc) from exc
+discord.ext.commands.errors.CommandInvokeError: Command raised an exception: AttributeError: 'MusicQuiz' object has no attribute 'join_channel'

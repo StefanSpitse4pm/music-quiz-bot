@@ -1,5 +1,5 @@
 #!/bin/bash
-cd ~/music-quiz-bot/
+cd /home/tagordo/Documents/side-projects/music-quiz-bot/
 pipenv shell
 pipenv install
 cd bot
