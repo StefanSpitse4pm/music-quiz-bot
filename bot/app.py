@@ -26,7 +26,7 @@ async def on_ready():
 async def main():
     async with bot:
         await bot.add_cog(MusicQuiz(bot))
-        await bot.start("MTIxNTA1ODcxODU0NzI1NTI5Ng.G_sx7U.XQXlPpVdZywRQNnBxjmpohNgNAD486rVvkkKkk")  # Use environment variable for token
+        await bot.start("MTIxNTA1ODcxODU0NzI1NTI5Ng.GbBGnV.dz79XxTbVwA5ZqphtITpBBuNvPn0iz534sX7Lk")
 
 
 asyncio.run(main())
