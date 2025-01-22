@@ -67,7 +67,7 @@ class MusicQuiz(commands.Cog):
         await self.join_channel(ctx)
 
         # get songs from csv file
-        with open('bot/audio/top200.csv', newline='') as csvfile:
+        with open('../bot/audio/top200.csv', newline='') as csvfile:
             reader = csv.DictReader(csvfile)
             songs = [row for row in reader]
             songs = random.sample   (songs, k=self.song_queue_length)
