@@ -259,7 +259,7 @@ class MusicQuiz(commands.Cog):
                 port=3306,
                 user="root",
                 password="qwerty",
-                db="bilster",
+                db="bilster",``
                 autocommit=True
             )
             async with self.db_pool.acquire() as conn:
