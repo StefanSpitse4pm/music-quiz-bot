@@ -1,0 +1,17 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+"discord.py" = {extras = ["voice"], version = "*"}
+yt-dlp = "*"
+youtube-search-python = "*"
+python-levenshtein = "*"
+mysql-connector-python = "*"
+aiomysql = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.12"
