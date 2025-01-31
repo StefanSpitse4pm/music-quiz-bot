@@ -6,9 +6,10 @@ import random
 import Levenshtein
 from math import ceil
 from collections import deque
-from functools import partial
+
 from time import sleep
 import aiomysql
+from cogs.musicHandler import Musichandler
 
 ytdl_format_options = {
     'format': 'bestaudio/best',
@@ -26,7 +27,7 @@ ytdl_format_options = {
 
 ytdl = yt_dlp.YoutubeDL(ytdl_format_options)
 
-class MusicQuiz(commands.Cog):
+class MusicQuiz(commands.Cog, Musichandler):
     
     def __init__(self, bot):
         self.bot = bot
@@ -66,20 +67,13 @@ class MusicQuiz(commands.Cog):
         
         await self.join_channel(ctx)
 
-        # get songs from csv file
-        with open('../bot/audio/top200.csv', newline='') as csvfile:
+        # get songs from csv file   
+        with open('bot/audio/top200.csv', newline='') as csvfile:
             reader = csv.DictReader(csvfile)
             songs = [row for row in reader]
             songs = random.sample   (songs, k=self.song_queue_length)
             self.song_queue.extend(songs)
         await self.start_song(ctx)
-
-    async def join_channel(self, ctx):
-        voice_channel = ctx.author.voice.channel
-        if not ctx.voice_client:
-            await voice_channel.connect()
-        else:
-            await ctx.send("The bilster is already in the voice channel!")
 
     @commands.Cog.listener()
     async def on_message(self, message):
@@ -147,65 +141,7 @@ class MusicQuiz(commands.Cog):
                 return
         await ctx.reply('you already passed womp womp')
         return
-
-    @staticmethod
-    async def search_video(query):
-        ydl_opts = {
-            'quiet': True,
-            'extract_flat': True, 
-            'force_generic_extractor': True,
-        }
-
-        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-            result = ydl.extract_info(f"ytsearch:{query}", download=False)
-            if 'entries' in result:
-                return result['entries'][0]
-            return None
-        
-
-    
-    async def get_audio_url(self, video_url):
-        if video_url:
-            ydl_opts = {
-                'format': 'bestaudio/best',
-                'extractaudio': True, 
-                'audioquality': 1,  
-                'outtmpl': 'downloads/%(id)s.%(ext)s',
-                'noplaylist': True,
-                'quiet': True,  
-                'no_warnings': True,  
-                'extract_flat': True,  
-            }
-            
-            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-                info_dict = ydl.extract_info(video_url['url'], download=False)
-                self.thumbnail = info_dict.get('thumbnail')
-                formats = info_dict.get('formats', [])
-                audio_url = None
-
-                for fmt in formats:
-                    if fmt.get('acodec') != 'none': 
-                        audio_url = fmt['url']
-                        break
-            return audio_url
-
-    async def play_audio_url(self, ctx, audio_url):
-        voice_client = ctx.voice_client
-        ffmpeg_options = {
-            'before_options': '-ss 30',
-            'options': f'-t {self.song_length} -vn',
-        }      
-          
-        
-        
-        source = discord.FFmpegPCMAudio(source=audio_url, **ffmpeg_options)
-        voice_client.play(source,after=partial(self.next_song, ctx=ctx))
-
-    def next_song(self, error=None, ctx=None):
-            if error:
-                print(error)
-            self.bot.loop.create_task(self.start_song(ctx))
-
+ 
     async def end_of_song(self, ctx):
         if self.song is not None:
 
@@ -239,7 +175,7 @@ class MusicQuiz(commands.Cog):
             self.game['song_guessed'] = False
             self.game['artist_guessed'] = False
             self.song = self.song_queue.popleft()
-            video_url = await MusicQuiz.search_video(f"{self.song['Title']}, {self.song['Artists']}")
+            video_url = await self.search_video(f"{self.song['Title']}, {self.song['Artists']}")
             audio_url = await self.get_audio_url(video_url)
             await self.play_audio_url(ctx, audio_url)
         else:

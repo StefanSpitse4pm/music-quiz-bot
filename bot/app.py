@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 import asyncio
 from cogs.musicQuiz import MusicQuiz
+from cogs.VideoPlay import Videoplaying
 import logging
 
 handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
@@ -26,6 +27,7 @@ async def on_ready():
 async def main():
     async with bot:
         await bot.add_cog(MusicQuiz(bot))
+        await bot.add_cog(Videoplaying(bot))
         await bot.start("MTIxNTA1ODcxODU0NzI1NTI5Ng.GbBGnV.dz79XxTbVwA5ZqphtITpBBuNvPn0iz534sX7Lk")
 
 
