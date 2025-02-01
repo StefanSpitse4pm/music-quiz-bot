@@ -36,12 +36,17 @@ class MusicQuiz(commands.Cog, Musichandler):
         self.game = {} 
         self.song_queue = deque()
         self.song_queue_length = 15
-        self.song_length = 30
-        
+        self.song_length = 30    
     
     @commands.command()
     async def musicquiz(self, ctx):
         """THE BILSTER WILL START THE MUSIC QUIZ"""
+        if self.listening is None:
+            self.listening = True    
+        else:    
+            await ctx.send('Already playing the musicquiz')
+            return
+        self.game['channel'] = ctx.channel.name
         start_embed = discord.Embed(title="🎵 *The bilster start zo de Music Quiz!*", color=discord.Color.dark_green())
         start_embed.add_field(name="", value=f"This game will have {self.song_queue_length} song previews, {self.song_length} per seconds per song.", inline=False)
         start_embed.add_field(name="", value="You'll have to guess the artist name and the song name and get 80% correct of the name.", inline=False)
@@ -50,11 +55,6 @@ class MusicQuiz(commands.Cog, Musichandler):
         start_embed.add_field(name="", value=":fire:THE BILSTER IS READY IN 10 seconds:fire:", inline=False)
         await ctx.send(embed=start_embed)
         sleep(7)
-        if self.listening is None:
-            self.listening = True    
-        else:    
-            await ctx.send('Already playing the musicquiz')
-            return
         # setup game
         self.game['voice'] = {ctx.author.voice.channel}
         self.game['song_guessed'] = False
@@ -78,7 +78,11 @@ class MusicQuiz(commands.Cog, Musichandler):
     @commands.Cog.listener()
     async def on_message(self, message):
         if self.listening:
+            print(self.game['channel'], message.channel)
             if message.author == self.bot.user or not message.guild:
+                return
+            
+            if str(self.game['channel']) != str(message.channel):
                 return
 
             if self.song is not None:
@@ -118,6 +122,20 @@ class MusicQuiz(commands.Cog, Musichandler):
                     await MusicQuiz.next_song(ctx)
         return
 
+    @commands.Cog.listener()
+    async def on_voice_state_update(self, member, before, after):
+        if member == self.bot.user:  # Check if it's the bot
+            if before.channel is not None and after.channel is None and self.listening:
+                text_channel = member.guild.system_channel or member.guild.text_channels[0]  # Get system channel or first text channel
+                if text_channel:
+                    async for message in text_channel.history(limit=1):  # Get the latest message
+                        ctx = await self.bot.get_context(message)  # Create a ctx object from that message
+                        if ctx.valid:
+                            self.reset(ctx)
+                            await ctx.send("The bilster got disconnected from the voice channel\n terminated the music quiz")  # Use ctx.send()
+
+
+
     @commands.command(name="pass")
     async def pass_song(self, ctx):
         """ BILSTER IS DISSAPOINTED IN YOU THAT YOU DONT KNOW THE SONG"""
@@ -129,9 +147,6 @@ class MusicQuiz(commands.Cog, Musichandler):
             threshhold = ceil(len(ctx.author.voice.channel.members)/ 2)
             if self.game['passes'] >= threshhold: 
                 self.game['passes'] = 0
-                for member in ctx.author.voice.channel.members:
-                    if member.name != self.bot.user.name:
-                        self.game[member.name]['passed'] = False
                 await ctx.send("the bilster is skipping the song...")
                 ctx.voice_client.stop()
                 await MusicQuiz.next_song(ctx)
@@ -172,21 +187,33 @@ class MusicQuiz(commands.Cog, Musichandler):
         await self.end_of_song(ctx)
         if self.song_queue:
             self.song_number += 1
-            self.game['song_guessed'] = False
-            self.game['artist_guessed'] = False
+            await self.reset_round(ctx)
             self.song = self.song_queue.popleft()
             video_url = await self.search_video(f"{self.song['Title']}, {self.song['Artists']}")
             audio_url = await self.get_audio_url(video_url)
             await self.play_audio_url(ctx, audio_url)
         else:
-            self.listening = None
-            self.song = None
-            self.game = {}
+            await self.reset(ctx)
             end_embed = discord.Embed(title="Music Quiz Ranking", color=discord.Color.purple())
             end_embed.add_field(name="", value=self.leaderboard, inline=False)
             await ctx.send(embed=end_embed)
             await ctx.voice_client.disconnect()
             await self.send_info_db()
+
+    async def reset(self, ctx):
+        self.listening = None
+        self.song = None
+        await self.reset_round(ctx)
+        self.game = {}
+
+    async def reset_round(self, ctx):
+        self.game['song_guessed'] = False
+        self.game['artist_guessed'] = False
+        self.game['passes'] = 0
+
+        for member in ctx.author.voice.channel.members:
+            if member.name != self.bot.user.name:
+                self.game[member.name]['passed'] = False
 
     async def send_info_db(self):
         try:

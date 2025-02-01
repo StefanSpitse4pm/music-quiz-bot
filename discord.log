@@ -1,361 +1,55 @@
-[2025-01-31 02:31:28] [INFO    ] discord.client: logging in using static token
-[2025-01-31 02:31:30] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: 276f1bc8c268786d3887d119861de858).
-[2025-01-31 02:31:45] [INFO    ] discord.voice_state: Connecting to voice...
-[2025-01-31 02:31:45] [INFO    ] discord.voice_state: Starting voice handshake... (connection attempt 1)
-[2025-01-31 02:31:45] [INFO    ] discord.voice_state: Voice handshake complete. Endpoint found: rotterdam11178.discord.media
-[2025-01-31 02:31:45] [INFO    ] discord.voice_state: Voice connection complete.
-[2025-01-31 02:32:10] [ERROR   ] discord.ext.commands.bot: Ignoring exception in command pass
+[2025-02-01 22:13:58] [INFO    ] discord.client: logging in using static token
+[2025-02-01 22:13:59] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: 4885ca6ac3abc1914b7c0db55b8f911c).
+[2025-02-01 22:14:31] [INFO    ] discord.voice_state: Connecting to voice...
+[2025-02-01 22:14:31] [INFO    ] discord.voice_state: Starting voice handshake... (connection attempt 1)
+[2025-02-01 22:14:31] [INFO    ] discord.voice_state: Voice handshake complete. Endpoint found: rotterdam7930.discord.media
+[2025-02-01 22:14:31] [INFO    ] discord.voice_state: Voice connection complete.
+[2025-02-01 22:14:39] [INFO    ] discord.voice_state: Disconnected from voice by force... potentially reconnecting.
+[2025-02-01 22:14:39] [INFO    ] discord.voice_state: The voice handshake is being terminated for Channel ID 1328821698476249190 (Guild ID 779447967433883699)
+[2025-02-01 22:14:39] [INFO    ] discord.voice_state: Reconnect was unsuccessful, disconnecting from voice normally...
+[2025-02-01 22:14:39] [INFO    ] discord.player: ffmpeg process 14251 has not terminated. Waiting to terminate...
+[2025-02-01 22:14:39] [INFO    ] discord.player: ffmpeg process 14251 should have terminated with a return code of -9.
+[2025-02-01 22:14:42] [ERROR   ] asyncio: Task exception was never retrieved
+future: <Task finished name='Task-21' coro=<MusicQuiz.start_song() done, defined at /home/tagordo/Documents/side-projects/music-quiz-bot/bot/cogs/musicQuiz.py:186> exception=AttributeError("'NoneType' object has no attribute 'play'")>
 Traceback (most recent call last):
-  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/core.py", line 235, in wrapped
-    ret = await coro(*args, **kwargs)
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/tagordo/Documents/side-projects/music-quiz-bot/bot/cogs/musicQuiz.py", line 137, in pass_song
-    await MusicQuiz.next_song(ctx)
-          ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/tagordo/Documents/side-projects/music-quiz-bot/bot/cogs/musicHandler.py", line 79, in next_song
-    self.bot.loop.create_task(self.start_song(ctx))
-                             ^^^^^^^^^^^^^^^
-AttributeError: 'Context' object has no attribute 'start_song'
-
-The above exception was the direct cause of the following exception:
-
+  File "/home/tagordo/Documents/side-projects/music-quiz-bot/bot/cogs/musicQuiz.py", line 194, in start_song
+    await self.play_audio_url(ctx, audio_url)
+  File "/home/tagordo/Documents/side-projects/music-quiz-bot/bot/cogs/musicHandler.py", line 81, in play_audio_url
+    voice_client.play(source,after=partial(self.next_song, ctx=ctx))
+    ^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'play'
+[2025-02-01 22:14:42] [INFO    ] discord.player: ffmpeg process 14330 has not terminated. Waiting to terminate...
+[2025-02-01 22:14:42] [INFO    ] discord.player: ffmpeg process 14330 should have terminated with a return code of -9.
+[2025-02-01 22:15:15] [INFO    ] discord.voice_state: Connecting to voice...
+[2025-02-01 22:15:15] [INFO    ] discord.voice_state: Starting voice handshake... (connection attempt 1)
+[2025-02-01 22:15:15] [INFO    ] discord.voice_state: Voice handshake complete. Endpoint found: rotterdam7930.discord.media
+[2025-02-01 22:15:15] [INFO    ] discord.voice_state: Voice connection complete.
+[2025-02-01 22:15:24] [INFO    ] discord.voice_state: The voice handshake is being terminated for Channel ID 1328821698476249190 (Guild ID 779447967433883699)
+[2025-02-01 22:15:24] [INFO    ] discord.player: ffmpeg process 14615 has not terminated. Waiting to terminate...
+[2025-02-01 22:15:24] [INFO    ] discord.player: ffmpeg process 14615 should have terminated with a return code of -9.
+[2025-02-01 22:15:27] [ERROR   ] asyncio: Task exception was never retrieved
+future: <Task finished name='Task-42' coro=<MusicQuiz.start_song() done, defined at /home/tagordo/Documents/side-projects/music-quiz-bot/bot/cogs/musicQuiz.py:186> exception=AttributeError("'NoneType' object has no attribute 'play'")>
 Traceback (most recent call last):
-  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/bot.py", line 1366, in invoke
-    await ctx.command.invoke(ctx)
-  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/core.py", line 1029, in invoke
-    await injected(*ctx.args, **ctx.kwargs)  # type: ignore
-    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/core.py", line 244, in wrapped
-    raise CommandInvokeError(exc) from exc
-discord.ext.commands.errors.CommandInvokeError: Command raised an exception: AttributeError: 'Context' object has no attribute 'start_song'
-[2025-01-31 02:32:10] [INFO    ] discord.player: ffmpeg process 47375 has not terminated. Waiting to terminate...
-[2025-01-31 02:32:10] [INFO    ] discord.player: ffmpeg process 47375 should have terminated with a return code of -9.
-[2025-01-31 02:32:39] [ERROR   ] discord.ext.commands.bot: Ignoring exception in command pass
-Traceback (most recent call last):
-  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/core.py", line 235, in wrapped
-    ret = await coro(*args, **kwargs)
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/tagordo/Documents/side-projects/music-quiz-bot/bot/cogs/musicQuiz.py", line 137, in pass_song
-    await MusicQuiz.next_song(ctx)
-          ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/tagordo/Documents/side-projects/music-quiz-bot/bot/cogs/musicHandler.py", line 79, in next_song
-    self.bot.loop.create_task(self.start_song(ctx))
-                             ^^^^^^^^^^^^^^^
-AttributeError: 'Context' object has no attribute 'start_song'
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/bot.py", line 1366, in invoke
-    await ctx.command.invoke(ctx)
-  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/core.py", line 1029, in invoke
-    await injected(*ctx.args, **ctx.kwargs)  # type: ignore
-    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/core.py", line 244, in wrapped
-    raise CommandInvokeError(exc) from exc
-discord.ext.commands.errors.CommandInvokeError: Command raised an exception: AttributeError: 'Context' object has no attribute 'start_song'
-[2025-01-31 02:32:39] [INFO    ] discord.player: ffmpeg process 47540 has not terminated. Waiting to terminate...
-[2025-01-31 02:32:39] [INFO    ] discord.player: ffmpeg process 47540 should have terminated with a return code of -9.
-[2025-01-31 02:32:53] [ERROR   ] discord.ext.commands.bot: Ignoring exception in command pass
-Traceback (most recent call last):
-  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/core.py", line 235, in wrapped
-    ret = await coro(*args, **kwargs)
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/tagordo/Documents/side-projects/music-quiz-bot/bot/cogs/musicQuiz.py", line 137, in pass_song
-    await MusicQuiz.next_song(ctx)
-          ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/tagordo/Documents/side-projects/music-quiz-bot/bot/cogs/musicHandler.py", line 79, in next_song
-    self.bot.loop.create_task(self.start_song(ctx))
-                             ^^^^^^^^^^^^^^^
-AttributeError: 'Context' object has no attribute 'start_song'
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/bot.py", line 1366, in invoke
-    await ctx.command.invoke(ctx)
-  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/core.py", line 1029, in invoke
-    await injected(*ctx.args, **ctx.kwargs)  # type: ignore
-    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/core.py", line 244, in wrapped
-    raise CommandInvokeError(exc) from exc
-discord.ext.commands.errors.CommandInvokeError: Command raised an exception: AttributeError: 'Context' object has no attribute 'start_song'
-[2025-01-31 02:32:53] [INFO    ] discord.player: ffmpeg process 47738 has not terminated. Waiting to terminate...
-[2025-01-31 02:32:53] [INFO    ] discord.player: ffmpeg process 47738 should have terminated with a return code of -9.
-[2025-01-31 02:33:13] [ERROR   ] discord.ext.commands.bot: Ignoring exception in command pass
-Traceback (most recent call last):
-  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/core.py", line 235, in wrapped
-    ret = await coro(*args, **kwargs)
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/tagordo/Documents/side-projects/music-quiz-bot/bot/cogs/musicQuiz.py", line 137, in pass_song
-    await MusicQuiz.next_song(ctx)
-          ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/tagordo/Documents/side-projects/music-quiz-bot/bot/cogs/musicHandler.py", line 79, in next_song
-    self.bot.loop.create_task(self.start_song(ctx))
-                             ^^^^^^^^^^^^^^^
-AttributeError: 'Context' object has no attribute 'start_song'
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/bot.py", line 1366, in invoke
-    await ctx.command.invoke(ctx)
-  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/core.py", line 1029, in invoke
-    await injected(*ctx.args, **ctx.kwargs)  # type: ignore
-    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/core.py", line 244, in wrapped
-    raise CommandInvokeError(exc) from exc
-discord.ext.commands.errors.CommandInvokeError: Command raised an exception: AttributeError: 'Context' object has no attribute 'start_song'
-[2025-01-31 02:33:13] [INFO    ] discord.player: ffmpeg process 47841 has not terminated. Waiting to terminate...
-[2025-01-31 02:33:13] [INFO    ] discord.player: ffmpeg process 47841 should have terminated with a return code of -9.
-[2025-01-31 02:33:33] [ERROR   ] discord.ext.commands.bot: Ignoring exception in command None
-discord.ext.commands.errors.CommandNotFound: Command "pas" is not found
-[2025-01-31 02:33:35] [ERROR   ] discord.ext.commands.bot: Ignoring exception in command pass
-Traceback (most recent call last):
-  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/core.py", line 235, in wrapped
-    ret = await coro(*args, **kwargs)
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/tagordo/Documents/side-projects/music-quiz-bot/bot/cogs/musicQuiz.py", line 137, in pass_song
-    await MusicQuiz.next_song(ctx)
-          ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/tagordo/Documents/side-projects/music-quiz-bot/bot/cogs/musicHandler.py", line 79, in next_song
-    self.bot.loop.create_task(self.start_song(ctx))
-                             ^^^^^^^^^^^^^^^
-AttributeError: 'Context' object has no attribute 'start_song'
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/bot.py", line 1366, in invoke
-    await ctx.command.invoke(ctx)
-  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/core.py", line 1029, in invoke
-    await injected(*ctx.args, **ctx.kwargs)  # type: ignore
-    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/core.py", line 244, in wrapped
-    raise CommandInvokeError(exc) from exc
-discord.ext.commands.errors.CommandInvokeError: Command raised an exception: AttributeError: 'Context' object has no attribute 'start_song'
-[2025-01-31 02:33:35] [INFO    ] discord.player: ffmpeg process 47964 has not terminated. Waiting to terminate...
-[2025-01-31 02:33:35] [INFO    ] discord.player: ffmpeg process 47964 should have terminated with a return code of -9.
-[2025-01-31 02:34:03] [ERROR   ] discord.client: Ignoring exception in on_message
+  File "/home/tagordo/Documents/side-projects/music-quiz-bot/bot/cogs/musicQuiz.py", line 194, in start_song
+    await self.play_audio_url(ctx, audio_url)
+  File "/home/tagordo/Documents/side-projects/music-quiz-bot/bot/cogs/musicHandler.py", line 81, in play_audio_url
+    voice_client.play(source,after=partial(self.next_song, ctx=ctx))
+    ^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'play'
+[2025-02-01 22:15:27] [INFO    ] discord.player: ffmpeg process 14708 has not terminated. Waiting to terminate...
+[2025-02-01 22:15:27] [INFO    ] discord.player: ffmpeg process 14708 should have terminated with a return code of -9.
+[2025-02-01 22:15:27] [ERROR   ] discord.client: Ignoring exception in on_message
 Traceback (most recent call last):
   File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/client.py", line 449, in _run_event
     await coro(*args, **kwargs)
-  File "/home/tagordo/Documents/side-projects/music-quiz-bot/bot/cogs/musicQuiz.py", line 118, in on_message
-    await MusicQuiz.next_song(ctx)
-          ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/tagordo/Documents/side-projects/music-quiz-bot/bot/cogs/musicHandler.py", line 79, in next_song
-    self.bot.loop.create_task(self.start_song(ctx))
-                             ^^^^^^^^^^^^^^^
-AttributeError: 'Context' object has no attribute 'start_song'
-[2025-01-31 02:34:03] [INFO    ] discord.player: ffmpeg process 48102 has not terminated. Waiting to terminate...
-[2025-01-31 02:34:03] [INFO    ] discord.player: ffmpeg process 48102 should have terminated with a return code of -9.
-[2025-01-31 02:34:26] [ERROR   ] discord.ext.commands.bot: Ignoring exception in command pass
-Traceback (most recent call last):
-  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/core.py", line 235, in wrapped
-    ret = await coro(*args, **kwargs)
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/tagordo/Documents/side-projects/music-quiz-bot/bot/cogs/musicQuiz.py", line 137, in pass_song
-    await MusicQuiz.next_song(ctx)
-          ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/tagordo/Documents/side-projects/music-quiz-bot/bot/cogs/musicHandler.py", line 79, in next_song
-    self.bot.loop.create_task(self.start_song(ctx))
-                             ^^^^^^^^^^^^^^^
-AttributeError: 'Context' object has no attribute 'start_song'
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/bot.py", line 1366, in invoke
-    await ctx.command.invoke(ctx)
-  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/core.py", line 1029, in invoke
-    await injected(*ctx.args, **ctx.kwargs)  # type: ignore
-    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/core.py", line 244, in wrapped
-    raise CommandInvokeError(exc) from exc
-discord.ext.commands.errors.CommandInvokeError: Command raised an exception: AttributeError: 'Context' object has no attribute 'start_song'
-[2025-01-31 02:34:26] [INFO    ] discord.player: ffmpeg process 48282 has not terminated. Waiting to terminate...
-[2025-01-31 02:34:26] [INFO    ] discord.player: ffmpeg process 48282 should have terminated with a return code of -9.
-[2025-01-31 02:34:38] [ERROR   ] discord.ext.commands.bot: Ignoring exception in command pass
-Traceback (most recent call last):
-  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/core.py", line 235, in wrapped
-    ret = await coro(*args, **kwargs)
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/tagordo/Documents/side-projects/music-quiz-bot/bot/cogs/musicQuiz.py", line 137, in pass_song
-    await MusicQuiz.next_song(ctx)
-          ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/tagordo/Documents/side-projects/music-quiz-bot/bot/cogs/musicHandler.py", line 79, in next_song
-    self.bot.loop.create_task(self.start_song(ctx))
-                             ^^^^^^^^^^^^^^^
-AttributeError: 'Context' object has no attribute 'start_song'
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/bot.py", line 1366, in invoke
-    await ctx.command.invoke(ctx)
-  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/core.py", line 1029, in invoke
-    await injected(*ctx.args, **ctx.kwargs)  # type: ignore
-    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/core.py", line 244, in wrapped
-    raise CommandInvokeError(exc) from exc
-discord.ext.commands.errors.CommandInvokeError: Command raised an exception: AttributeError: 'Context' object has no attribute 'start_song'
-[2025-01-31 02:34:38] [INFO    ] discord.player: ffmpeg process 48429 has not terminated. Waiting to terminate...
-[2025-01-31 02:34:38] [INFO    ] discord.player: ffmpeg process 48429 should have terminated with a return code of -9.
-[2025-01-31 02:34:59] [ERROR   ] discord.ext.commands.bot: Ignoring exception in command pass
-Traceback (most recent call last):
-  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/core.py", line 235, in wrapped
-    ret = await coro(*args, **kwargs)
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/tagordo/Documents/side-projects/music-quiz-bot/bot/cogs/musicQuiz.py", line 137, in pass_song
-    await MusicQuiz.next_song(ctx)
-          ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/tagordo/Documents/side-projects/music-quiz-bot/bot/cogs/musicHandler.py", line 79, in next_song
-    self.bot.loop.create_task(self.start_song(ctx))
-                             ^^^^^^^^^^^^^^^
-AttributeError: 'Context' object has no attribute 'start_song'
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/bot.py", line 1366, in invoke
-    await ctx.command.invoke(ctx)
-  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/core.py", line 1029, in invoke
-    await injected(*ctx.args, **ctx.kwargs)  # type: ignore
-    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/core.py", line 244, in wrapped
-    raise CommandInvokeError(exc) from exc
-discord.ext.commands.errors.CommandInvokeError: Command raised an exception: AttributeError: 'Context' object has no attribute 'start_song'
-[2025-01-31 02:34:59] [INFO    ] discord.player: ffmpeg process 48517 has not terminated. Waiting to terminate...
-[2025-01-31 02:34:59] [INFO    ] discord.player: ffmpeg process 48517 should have terminated with a return code of -9.
-[2025-01-31 02:35:32] [INFO    ] discord.player: ffmpeg process 48662 successfully terminated with return code of 0.
-[2025-01-31 02:35:36] [ERROR   ] discord.ext.commands.bot: Ignoring exception in command pass
-Traceback (most recent call last):
-  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/core.py", line 235, in wrapped
-    ret = await coro(*args, **kwargs)
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/tagordo/Documents/side-projects/music-quiz-bot/bot/cogs/musicQuiz.py", line 137, in pass_song
-    await MusicQuiz.next_song(ctx)
-          ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/tagordo/Documents/side-projects/music-quiz-bot/bot/cogs/musicHandler.py", line 79, in next_song
-    self.bot.loop.create_task(self.start_song(ctx))
-                             ^^^^^^^^^^^^^^^
-AttributeError: 'Context' object has no attribute 'start_song'
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/bot.py", line 1366, in invoke
-    await ctx.command.invoke(ctx)
-  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/core.py", line 1029, in invoke
-    await injected(*ctx.args, **ctx.kwargs)  # type: ignore
-    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/core.py", line 244, in wrapped
-    raise CommandInvokeError(exc) from exc
-discord.ext.commands.errors.CommandInvokeError: Command raised an exception: AttributeError: 'Context' object has no attribute 'start_song'
-[2025-01-31 02:35:36] [INFO    ] discord.player: ffmpeg process 48871 has not terminated. Waiting to terminate...
-[2025-01-31 02:35:36] [INFO    ] discord.player: ffmpeg process 48871 should have terminated with a return code of -9.
-[2025-01-31 02:35:39] [ERROR   ] discord.ext.commands.bot: Ignoring exception in command pass
-Traceback (most recent call last):
-  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/core.py", line 235, in wrapped
-    ret = await coro(*args, **kwargs)
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/tagordo/Documents/side-projects/music-quiz-bot/bot/cogs/musicQuiz.py", line 137, in pass_song
-    await MusicQuiz.next_song(ctx)
-          ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/tagordo/Documents/side-projects/music-quiz-bot/bot/cogs/musicHandler.py", line 79, in next_song
-    self.bot.loop.create_task(self.start_song(ctx))
-                             ^^^^^^^^^^^^^^^
-AttributeError: 'Context' object has no attribute 'start_song'
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/bot.py", line 1366, in invoke
-    await ctx.command.invoke(ctx)
-  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/core.py", line 1029, in invoke
-    await injected(*ctx.args, **ctx.kwargs)  # type: ignore
-    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/core.py", line 244, in wrapped
-    raise CommandInvokeError(exc) from exc
-discord.ext.commands.errors.CommandInvokeError: Command raised an exception: AttributeError: 'Context' object has no attribute 'start_song'
-[2025-01-31 02:35:39] [INFO    ] discord.player: ffmpeg process 48912 has not terminated. Waiting to terminate...
-[2025-01-31 02:35:39] [INFO    ] discord.player: ffmpeg process 48912 should have terminated with a return code of -9.
-[2025-01-31 02:36:11] [ERROR   ] discord.ext.commands.bot: Ignoring exception in command pass
-Traceback (most recent call last):
-  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/core.py", line 235, in wrapped
-    ret = await coro(*args, **kwargs)
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/tagordo/Documents/side-projects/music-quiz-bot/bot/cogs/musicQuiz.py", line 137, in pass_song
-    await MusicQuiz.next_song(ctx)
-          ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/tagordo/Documents/side-projects/music-quiz-bot/bot/cogs/musicHandler.py", line 79, in next_song
-    self.bot.loop.create_task(self.start_song(ctx))
-                             ^^^^^^^^^^^^^^^
-AttributeError: 'Context' object has no attribute 'start_song'
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/bot.py", line 1366, in invoke
-    await ctx.command.invoke(ctx)
-  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/core.py", line 1029, in invoke
-    await injected(*ctx.args, **ctx.kwargs)  # type: ignore
-    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/core.py", line 244, in wrapped
-    raise CommandInvokeError(exc) from exc
-discord.ext.commands.errors.CommandInvokeError: Command raised an exception: AttributeError: 'Context' object has no attribute 'start_song'
-[2025-01-31 02:36:11] [INFO    ] discord.player: ffmpeg process 48950 has not terminated. Waiting to terminate...
-[2025-01-31 02:36:11] [INFO    ] discord.player: ffmpeg process 48950 should have terminated with a return code of -9.
-[2025-01-31 02:36:25] [ERROR   ] discord.ext.commands.bot: Ignoring exception in command pass
-Traceback (most recent call last):
-  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/core.py", line 235, in wrapped
-    ret = await coro(*args, **kwargs)
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/tagordo/Documents/side-projects/music-quiz-bot/bot/cogs/musicQuiz.py", line 137, in pass_song
-    await MusicQuiz.next_song(ctx)
-          ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/tagordo/Documents/side-projects/music-quiz-bot/bot/cogs/musicHandler.py", line 79, in next_song
-    self.bot.loop.create_task(self.start_song(ctx))
-                             ^^^^^^^^^^^^^^^
-AttributeError: 'Context' object has no attribute 'start_song'
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/bot.py", line 1366, in invoke
-    await ctx.command.invoke(ctx)
-  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/core.py", line 1029, in invoke
-    await injected(*ctx.args, **ctx.kwargs)  # type: ignore
-    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/core.py", line 244, in wrapped
-    raise CommandInvokeError(exc) from exc
-discord.ext.commands.errors.CommandInvokeError: Command raised an exception: AttributeError: 'Context' object has no attribute 'start_song'
-[2025-01-31 02:36:25] [INFO    ] discord.player: ffmpeg process 49147 has not terminated. Waiting to terminate...
-[2025-01-31 02:36:25] [INFO    ] discord.player: ffmpeg process 49147 should have terminated with a return code of -9.
-[2025-01-31 02:36:46] [ERROR   ] discord.ext.commands.bot: Ignoring exception in command pass
-Traceback (most recent call last):
-  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/core.py", line 235, in wrapped
-    ret = await coro(*args, **kwargs)
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/tagordo/Documents/side-projects/music-quiz-bot/bot/cogs/musicQuiz.py", line 137, in pass_song
-    await MusicQuiz.next_song(ctx)
-          ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/tagordo/Documents/side-projects/music-quiz-bot/bot/cogs/musicHandler.py", line 79, in next_song
-    self.bot.loop.create_task(self.start_song(ctx))
-                             ^^^^^^^^^^^^^^^
-AttributeError: 'Context' object has no attribute 'start_song'
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/bot.py", line 1366, in invoke
-    await ctx.command.invoke(ctx)
-  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/core.py", line 1029, in invoke
-    await injected(*ctx.args, **ctx.kwargs)  # type: ignore
-    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/tagordo/snap/code/179/.local/share/virtualenvs/music-quiz-bot-PZw_aL80/lib/python3.12/site-packages/discord/ext/commands/core.py", line 244, in wrapped
-    raise CommandInvokeError(exc) from exc
-discord.ext.commands.errors.CommandInvokeError: Command raised an exception: AttributeError: 'Context' object has no attribute 'start_song'
-[2025-01-31 02:36:46] [INFO    ] discord.player: ffmpeg process 49243 has not terminated. Waiting to terminate...
-[2025-01-31 02:36:46] [INFO    ] discord.player: ffmpeg process 49243 should have terminated with a return code of -9.
-[2025-01-31 02:36:47] [INFO    ] discord.voice_state: The voice handshake is being terminated for Channel ID 779447967924224063 (Guild ID 779447967433883699)
+  File "/home/tagordo/Documents/side-projects/music-quiz-bot/bot/cogs/musicQuiz.py", line 117, in on_message
+    if self.game['artist_guessed'] and self.game['song_guessed']:
+       ~~~~~~~~~^^^^^^^^^^^^^^^^^^
+KeyError: 'artist_guessed'
+[2025-02-01 22:15:41] [INFO    ] discord.voice_state: Connecting to voice...
+[2025-02-01 22:15:41] [INFO    ] discord.voice_state: Starting voice handshake... (connection attempt 1)
+[2025-02-01 22:15:42] [INFO    ] discord.voice_state: Voice handshake complete. Endpoint found: rotterdam7930.discord.media
+[2025-02-01 22:15:42] [INFO    ] discord.voice_state: Voice connection complete.
+[2025-02-01 22:15:50] [INFO    ] discord.voice_state: The voice handshake is being terminated for Channel ID 1328821698476249190 (Guild ID 779447967433883699)
+[2025-02-01 22:15:50] [INFO    ] discord.player: ffmpeg process 14864 has not terminated. Waiting to terminate...
+[2025-02-01 22:15:50] [INFO    ] discord.player: ffmpeg process 14864 should have terminated with a return code of -9.

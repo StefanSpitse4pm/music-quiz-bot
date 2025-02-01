@@ -63,6 +63,12 @@ class Musichandler():
         
     async def play_audio_url(self, ctx, audio_url, ffmpeg_options = None):
         voice_client = ctx.voice_client
+        
+        # here for if the bots is disconnected.
+        # make sure that there is a reset function
+        if not voice_client:
+            await self.reset(ctx)
+
         if not ffmpeg_options:
             ffmpeg_options = {
                 'before_options': '-ss 30',
@@ -71,6 +77,7 @@ class Musichandler():
               
         
         source = discord.FFmpegPCMAudio(source=audio_url, **ffmpeg_options)
+
         voice_client.play(source,after=partial(self.next_song, ctx=ctx))
 
     def next_song(self, error=None, ctx=None):

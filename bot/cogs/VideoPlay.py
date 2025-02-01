@@ -119,3 +119,6 @@ class Videoplaying(commands.Cog, Musichandler):
         if ctx.voice_client.is_playing():
             ctx.voice_client.stop()
         await ctx.voice_client.disconnect()
+    
+
+    
