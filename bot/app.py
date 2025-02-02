@@ -28,8 +28,8 @@ async def main():
     async with bot:
         await bot.add_cog(MusicQuiz(bot))
         await bot.add_cog(Videoplaying(bot))
-        await bot.start("MTIxNTA1ODcxODU0NzI1NTI5Ng.GbBGnV.dz79XxTbVwA5ZqphtITpBBuNvPn0iz534sX7Lk")
-        # await bot.start("MTMzNTM2MjgxNjYzODU4Mjg3NA.GiT4ie.AMqxdNqKrlbRmnYy6PgCRWMsZLzTRC3MN7PYy8")
+        # await bot.start("MTIxNTA1ODcxODU0NzI1NTI5Ng.GbBGnV.dz79XxTbVwA5ZqphtITpBBuNvPn0iz534sX7Lk") # the bilster
+        await bot.start("MTMzNTM2MjgxNjYzODU4Mjg3NA.GiT4ie.AMqxdNqKrlbRmnYy6PgCRWMsZLzTRC3MN7PYy8") # not the real bot
 
 
 asyncio.run(main())

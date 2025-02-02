@@ -78,7 +78,6 @@ class MusicQuiz(commands.Cog, Musichandler):
     @commands.Cog.listener()
     async def on_message(self, message):
         if self.listening:
-            print(self.game['channel'], message.channel)
             if message.author == self.bot.user or not message.guild:
                 return
             

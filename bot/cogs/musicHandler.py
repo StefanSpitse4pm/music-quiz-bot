@@ -71,7 +71,7 @@ class Musichandler():
 
         if not ffmpeg_options:
             ffmpeg_options = {
-                'before_options': '-ss 30',
+                'before_options': '-ss 50',
                 'options': f'-t {self.song_length} -vn',
             }
               
