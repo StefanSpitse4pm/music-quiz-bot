@@ -130,7 +130,7 @@ class MusicQuiz(commands.Cog, Musichandler):
                     async for message in text_channel.history(limit=1):  # Get the latest message
                         ctx = await self.bot.get_context(message)  # Create a ctx object from that message
                         if ctx.valid:
-                            self.reset(ctx)
+                            await self.reset(ctx)
                             await ctx.send("The bilster got disconnected from the voice channel\n terminated the music quiz")  # Use ctx.send()
 
 
@@ -158,7 +158,10 @@ class MusicQuiz(commands.Cog, Musichandler):
  
     async def end_of_song(self, ctx):
         if self.song is not None:
-
+            if self.song_queue:
+                song = self.song
+                self.song =  None
+            
             valid_entries = {player: data for player, data in self.game.items() if isinstance(data, dict) and "score" in data}
             top_3_players = sorted(valid_entries.items(), key=lambda item: item[1]["score"], reverse=True)[:3]
             leaderboard = ""
@@ -174,7 +177,7 @@ class MusicQuiz(commands.Cog, Musichandler):
                 leaderboard += f"{emoji} - {username} - {score}\n"
                 self.top_3 = top_3_players
                 self.leaderboard = leaderboard
-            song_card = discord.Embed(title=f"It was: {self.song['Title']} - {self.song['Artists']}",
+            song_card = discord.Embed(title=f"It was: {song['Title']} - {song['Artists']}",
                                      description=f"Music Quiz - track {self.song_number - 1} / {self.song_queue_length}",
                                      color=discord.Color.dark_green())
             song_card.add_field(name="**__LEADERBOARD__**", value=leaderboard, inline=False)
@@ -183,7 +186,10 @@ class MusicQuiz(commands.Cog, Musichandler):
         return
 
     async def start_song(self, ctx):
+        # here to make sure that there is no guessing before the next song starts
+        
         await self.end_of_song(ctx)
+        
         if self.song_queue:
             self.song_number += 1
             await self.reset_round(ctx)

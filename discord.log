@@ -1,11 +1,1 @@
-[2025-02-02 16:07:28] [INFO    ] discord.client: logging in using static token
-[2025-02-02 16:07:29] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: b9e09336eb3596fc7c83e93309d84ac8).
-[2025-02-02 16:07:39] [INFO    ] discord.voice_state: Connecting to voice...
-[2025-02-02 16:07:39] [INFO    ] discord.voice_state: Starting voice handshake... (connection attempt 1)
-[2025-02-02 16:07:39] [INFO    ] discord.voice_state: Voice handshake complete. Endpoint found: rotterdam7166.discord.media
-[2025-02-02 16:07:39] [INFO    ] discord.voice_state: Voice connection complete.
-[2025-02-02 16:07:47] [INFO    ] discord.voice_state: The voice handshake is being terminated for Channel ID 1328821698476249190 (Guild ID 779447967433883699)
-[2025-02-02 16:09:03] [INFO    ] discord.voice_state: Connecting to voice...
-[2025-02-02 16:09:03] [INFO    ] discord.voice_state: Starting voice handshake... (connection attempt 1)
-[2025-02-02 16:09:03] [INFO    ] discord.voice_state: Voice handshake complete. Endpoint found: rotterdam2127.discord.media
-[2025-02-02 16:09:03] [INFO    ] discord.voice_state: Voice connection complete.
+[2025-02-02 19:03:16] [INFO    ] discord.client: logging in using static token

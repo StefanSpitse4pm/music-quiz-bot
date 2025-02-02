@@ -77,7 +77,7 @@ class Musichandler():
               
         
         source = discord.FFmpegPCMAudio(source=audio_url, **ffmpeg_options)
-
+        print(self.song)
         voice_client.play(source,after=partial(self.next_song, ctx=ctx))
 
     def next_song(self, error=None, ctx=None):

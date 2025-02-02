@@ -71,9 +71,7 @@ class Videoplaying(commands.Cog, Musichandler):
             embed.add_field(name="", value=f"In Position #{len(self.queue)}",inline=False)
             embed.set_thumbnail(url=video_url['thumbnails'][0]['url'])
             await ctx.send(embed=embed)
-
         else:
-            
             video_url = await self.search_video(query)
             self.queue.append(video_url)
             await self.start_song(ctx)    
