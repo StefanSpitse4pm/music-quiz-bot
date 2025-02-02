@@ -71,10 +71,9 @@ class Musichandler():
 
         if not ffmpeg_options:
             ffmpeg_options = {
-                'before_options': '-ss 50',
-                'options': f'-t {self.song_length} -vn',
-            }
-              
+            'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5 -ss 50',
+            'options': f'-t {self.song_length} -vn',
+        }
         
         source = discord.FFmpegPCMAudio(source=audio_url, **ffmpeg_options)
         print(self.song)

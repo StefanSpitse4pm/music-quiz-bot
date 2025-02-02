@@ -36,7 +36,8 @@ class MusicQuiz(commands.Cog, Musichandler):
         self.game = {} 
         self.song_queue = deque()
         self.song_queue_length = 15
-        self.song_length = 30    
+        self.song_length = 30
+        
     
     @commands.command()
     async def musicquiz(self, ctx):
@@ -96,6 +97,7 @@ class MusicQuiz(commands.Cog, Musichandler):
                     return similarity >= 80
                 song_guessed = string_percentage(str(self.song['Title']).lower(),  str(message.content).lower())
                 artist_guessed = string_percentage(str(self.song['Artists']).lower(),  str(message.content).lower())
+                
                 if not self.game['song_guessed'] and song_guessed:
                     await message.add_reaction('✅')
                     self.game[message.author.name]['score'] += 1

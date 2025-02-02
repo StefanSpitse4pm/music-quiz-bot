@@ -5,7 +5,7 @@ from cogs.musicQuiz import MusicQuiz
 from cogs.VideoPlay import Videoplaying
 import logging
 import os
-from dotenv import load_dotenv, dotenv_values
+from dotenv import load_dotenv 
 
 handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
 discord.utils.setup_logging(root=True, handler=handler)
