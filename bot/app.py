@@ -4,6 +4,8 @@ import asyncio
 from cogs.musicQuiz import MusicQuiz
 from cogs.VideoPlay import Videoplaying
 import logging
+import os
+from dotenv import load_dotenv, dotenv_values
 
 handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
 discord.utils.setup_logging(root=True, handler=handler)
@@ -11,6 +13,7 @@ discord.utils.setup_logging(root=True, handler=handler)
 intents = discord.Intents.default()
 intents.message_content = True
 
+load_dotenv()
 
 bot = commands.Bot(
     command_prefix=commands.when_mentioned_or("!"),
@@ -28,8 +31,7 @@ async def main():
     async with bot:
         await bot.add_cog(MusicQuiz(bot))
         await bot.add_cog(Videoplaying(bot))
-        # await bot.start("MTIxNTA1ODcxODU0NzI1NTI5Ng.GbBGnV.dz79XxTbVwA5ZqphtITpBBuNvPn0iz534sX7Lk") # the bilster
-        await bot.start("MTMzNTM2MjgxNjYzODU4Mjg3NA.GiT4ie.AMqxdNqKrlbRmnYy6PgCRWMsZLzTRC3MN7PYy8") # not the real bot
+        await bot.start(os.getenv("testing"))
 
 
 asyncio.run(main())

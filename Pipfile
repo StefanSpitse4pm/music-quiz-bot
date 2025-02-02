@@ -10,6 +10,7 @@ youtube-search-python = "*"
 python-levenshtein = "*"
 mysql-connector-python = "*"
 aiomysql = "*"
+python-dotenv = "*"
 
 [dev-packages]
 
