@@ -6,10 +6,10 @@ import random
 import Levenshtein
 from math import ceil
 from collections import deque
-
+import asyncio
 from time import sleep
 import aiomysql
-from cogs.musicHandler import Musichandler
+from utils.musicHandler import Musichandler
 
 ytdl_format_options = {
     'format': 'bestaudio/best',
@@ -27,6 +27,20 @@ ytdl_format_options = {
 
 ytdl = yt_dlp.YoutubeDL(ytdl_format_options)
 
+class Pass(discord.ui.View):
+
+    def __init__(self, bot, ctx):
+        super().__init__()
+        self.bot = bot
+        self.ctx = ctx
+    @discord.ui.button(label="Pass!", style=discord.ButtonStyle.danger)
+    async def pass_button(self, interaction:discord.Interaction, button: discord.ui.Button):
+        command = self.bot.get_command("pass")
+        if command:
+            self.ctx.author = interaction.user
+            await command.invoke(self.ctx)
+            await interaction.response.edit_message(view=self)
+
 class MusicQuiz(commands.Cog, Musichandler):
     
     def __init__(self, bot):
@@ -35,17 +49,21 @@ class MusicQuiz(commands.Cog, Musichandler):
         self.song = None
         self.game = {} 
         self.song_queue = deque()
-        self.song_queue_length = 15
+        self.song_queue_length = 2 
         self.song_length = 30
-        
+        self.loading_task = {} 
     
     @commands.command()
-    async def musicquiz(self, ctx):
+    async def musicquiz(self, ctx, gamemode: str = "top2000"):
         """THE BILSTER WILL START THE MUSIC QUIZ"""
         if self.listening is None:
-            self.listening = True    
+            self.listening = True   
         else:    
             await ctx.send('Already playing the musicquiz')
+            return
+        gamemodes = ['top2000'] 
+        if gamemode not in gamemodes: 
+            await ctx.send(f'That is not a game mode that exists.\n pick one of these `{", ".join(gamemodes)}`') 
             return
         self.game['channel'] = ctx.channel.name
         start_embed = discord.Embed(title="🎵 *The bilster start zo de Music Quiz!*", color=discord.Color.dark_green())
@@ -69,7 +87,7 @@ class MusicQuiz(commands.Cog, Musichandler):
         await self.join_channel(ctx)
 
         # get songs from csv file   
-        with open('bot/audio/songs.csv', newline='') as csvfile:
+        with open(f'bot/audio/{gamemode}.csv', newline='') as csvfile:
             reader = csv.DictReader(csvfile)
             songs = [row for row in reader]
             songs = random.sample   (songs, k=self.song_queue_length)
@@ -110,7 +128,7 @@ class MusicQuiz(commands.Cog, Musichandler):
                     self.game[message.author.name]['score'] += 1
                     self.game['artist_guessed'] = True
                     self.game['artist_guesser'] = message.author.name
-                    await message.reply(f'{message.author.mention} got one point there score is now **{self.game[message.author.name]['score']} points**', mention_author=True)
+                    await message.reply(f'{message.author.mention} got one point their score is now **{self.game[message.author.name]['score']} points**', mention_author=True)
                 else:
                     await message.add_reaction('❌')
         
@@ -150,20 +168,18 @@ class MusicQuiz(commands.Cog, Musichandler):
                 self.game['passes'] = 0
                 await ctx.send("the bilster is skipping the song...")
                 ctx.voice_client.stop()
-                await MusicQuiz.next_song(ctx)
                 return
             else:
                 await ctx.send(f':track_next:**{self.game['passes']} / {threshhold}** votes to pass the song') 
                 return
-        await ctx.reply('you already passed womp womp')
+        await ctx.send(f'{ctx.author} you already passed womp womp')
         return
  
     async def end_of_song(self, ctx):
+        
         if self.song is not None:
-            if self.song_queue:
-                song = self.song
-                self.song =  None
-            
+            song = self.song
+            self.song =  None
             valid_entries = {player: data for player, data in self.game.items() if isinstance(data, dict) and "score" in data}
             top_3_players = sorted(valid_entries.items(), key=lambda item: item[1]["score"], reverse=True)[:3]
             leaderboard = ""
@@ -186,12 +202,38 @@ class MusicQuiz(commands.Cog, Musichandler):
             song_card.set_thumbnail(url=self.thumbnail)
             await ctx.send(embed=song_card)
         return
+    
+    async def progress_bar(self, ctx):
+        duration = 30
+        steps = 10
+        interval = duration / steps
+        bar_length = 20
 
+        view = Pass(self.bot, ctx)
+        embed = discord.Embed(title="Progression song", description="Starting... ", color=discord.Color.dark_teal())
+        message = await ctx.send(embed=embed, view=view)
+           
+
+        for i in range(1, steps + 1):
+            if self.song:
+                try:
+                    progress = i / steps
+                    filled_length = int(bar_length * progress)
+                    bar = "🟩" * filled_length + ("⬜" * (bar_length - filled_length))
+                    percentage = int(progress * 100)
+
+                    embed.description = f"Music underway... [{bar}] %{percentage}"
+                    await message.edit(embed=embed)
+                    await asyncio.sleep(interval)
+                except asyncio.CancelledError:
+                    break
+            else:
+                break
+        embed.description = "Song is done"
+        await message.edit(embed=embed)
+    
     async def start_song(self, ctx):
-        # here to make sure that there is no guessing before the next song starts
-        
         await self.end_of_song(ctx)
-        
         if self.song_queue:
             self.song_number += 1
             await self.reset_round(ctx)
@@ -199,6 +241,7 @@ class MusicQuiz(commands.Cog, Musichandler):
             video_url = await self.search_video(f"{self.song['Title']}, {self.song['Artists']}")
             audio_url = await self.get_audio_url(video_url)
             await self.play_audio_url(ctx, audio_url)
+            self.loading_task[ctx.channel.id] = self.bot.loop.create_task(self.progress_bar(ctx))    
         else:
             await self.reset(ctx)
             end_embed = discord.Embed(title="Music Quiz Ranking", color=discord.Color.purple())
@@ -206,7 +249,7 @@ class MusicQuiz(commands.Cog, Musichandler):
             await ctx.send(embed=end_embed)
             await ctx.voice_client.disconnect()
             await self.send_info_db()
-
+            
     async def reset(self, ctx):
         self.listening = None
         self.song = None
@@ -217,6 +260,8 @@ class MusicQuiz(commands.Cog, Musichandler):
         self.game['song_guessed'] = False
         self.game['artist_guessed'] = False
         self.game['passes'] = 0
+        if ctx.channel.id in self.loading_task:
+           self.loading_task[ctx.channel.id].cancel() 
 
         for member in ctx.author.voice.channel.members:
             if member.name != self.bot.user.name:
@@ -237,3 +282,4 @@ class MusicQuiz(commands.Cog, Musichandler):
                     await cursor.execute("INSERT INTO `wins`(`username`, `score`) VALUES (%s,%s)", (self.top_3[0][0], self.top_3[0][1]['score']))
         except Exception as e:
             print(e)
+

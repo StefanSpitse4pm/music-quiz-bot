@@ -19,8 +19,6 @@ class Musichandler():
 }
 
     ytdl = yt_dlp.YoutubeDL(ytdl_format_options)
-
-
     @staticmethod
     async def search_video(query):
         ydl_opts = {
@@ -28,7 +26,6 @@ class Musichandler():
             'extract_flat': True, 
             'force_generic_extractor': True,
         }
-
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             result = ydl.extract_info(f"ytsearch:{query}", download=False)
             if 'entries' in result:
@@ -63,7 +60,7 @@ class Musichandler():
         
     async def play_audio_url(self, ctx, audio_url, ffmpeg_options = None):
         voice_client = ctx.voice_client
-        
+    
         # here for if the bots is disconnected.
         # make sure that there is a reset function
         if not voice_client:
@@ -76,7 +73,6 @@ class Musichandler():
         }
         
         source = discord.FFmpegPCMAudio(source=audio_url, **ffmpeg_options)
-        print(self.song)
         voice_client.play(source,after=partial(self.next_song, ctx=ctx))
 
     def next_song(self, error=None, ctx=None):
@@ -97,3 +93,7 @@ class Musichandler():
                 await ctx.send("The bilster is already in the voice channel!")
         else:
             await ctx.send("Your not in a voice channel THE BILSTER CAN NOT JOIN!")
+
+
+
+            

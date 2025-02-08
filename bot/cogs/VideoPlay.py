@@ -2,8 +2,7 @@ import discord
 from discord.ext import commands
 import yt_dlp
 from collections import deque
-from cogs.musicHandler import Musichandler
-
+from utils.musicHandler import Musichandler
 ytdl_format_options = {
     'format': 'bestaudio/best',
     'outtmpl': '%(extractor)s-%(id)s-%(title)s.%(ext)s',
@@ -117,6 +116,4 @@ class Videoplaying(commands.Cog, Musichandler):
         if ctx.voice_client.is_playing():
             ctx.voice_client.stop()
         await ctx.voice_client.disconnect()
-    
-
     

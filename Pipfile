@@ -11,6 +11,7 @@ python-levenshtein = "*"
 mysql-connector-python = "*"
 aiomysql = "*"
 python-dotenv = "*"
+watchdog = "*"
 
 [dev-packages]
 

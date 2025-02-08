@@ -7,6 +7,9 @@ import logging
 import os
 from dotenv import load_dotenv 
 
+# change to the bilster once in production
+# also make sure its the same key as the one in the .env 
+
 handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
 discord.utils.setup_logging(root=True, handler=handler)
 
@@ -20,7 +23,6 @@ bot = commands.Bot(
     description='THE BILSTER THINKS YOU ARE A NERD',
     intents=intents
 )
-
 
 @bot.event
 async def on_ready():
