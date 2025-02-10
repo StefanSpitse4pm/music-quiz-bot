@@ -60,7 +60,9 @@ class Musichandler():
         
     async def play_audio_url(self, ctx, audio_url, ffmpeg_options = None):
         voice_client = ctx.voice_client
-    
+        if voice_client is None:
+           await self.reset(ctx)
+           return
         # here for if the bots is disconnected.
         # make sure that there is a reset function
         if not voice_client:

@@ -42,7 +42,6 @@ class Pass(discord.ui.View):
             await interaction.response.edit_message(view=self)
 
 class MusicQuiz(commands.Cog, Musichandler):
-    
     def __init__(self, bot):
         self.bot = bot
         self.listening = None
@@ -59,12 +58,15 @@ class MusicQuiz(commands.Cog, Musichandler):
         if self.listening is None:
             self.listening = True   
         else:    
-            await ctx.send('Already playing the musicquiz')
+            await ctx.send('Already playing the musicquiz (if this happennes and there is loading bar wait for it to be over and retry otherwise @tagordo)')
             return
-        gamemodes = ['top2000'] 
+        gamemodes = ['top2000', "infinite"] 
         if gamemode not in gamemodes: 
-            await ctx.send(f'That is not a game mode that exists.\n pick one of these `{", ".join(gamemodes)}`') 
+            await ctx.send(f'That is not a game mode that exists.\n pick one of these `{", ".join(gamemodes)}`')
+            await self.reset(ctx)
             return
+        self.game['gamemode'] = gamemode
+        
         self.game['channel'] = ctx.channel.name
         start_embed = discord.Embed(title="🎵 *The bilster start zo de Music Quiz!*", color=discord.Color.dark_green())
         start_embed.add_field(name="", value=f"This game will have {self.song_queue_length} song previews, {self.song_length} per seconds per song.", inline=False)
@@ -87,12 +89,15 @@ class MusicQuiz(commands.Cog, Musichandler):
         await self.join_channel(ctx)
 
         # get songs from csv file   
-        with open(f'bot/audio/{gamemode}.csv', newline='') as csvfile:
+        self.setSongs()
+        await self.start_song(ctx)
+
+    def setSongs(self):
+        with open(f'bot/audio/{self.game['gamemode']}.csv', newline='') as csvfile:
             reader = csv.DictReader(csvfile)
             songs = [row for row in reader]
-            songs = random.sample   (songs, k=self.song_queue_length)
+            songs = random.sample(songs, k=self.song_queue_length)
             self.song_queue.extend(songs)
-        await self.start_song(ctx)
 
     @commands.Cog.listener()
     async def on_message(self, message):
@@ -132,7 +137,6 @@ class MusicQuiz(commands.Cog, Musichandler):
                 else:
                     await message.add_reaction('❌')
         
-                
                 if self.game['artist_guessed'] and self.game['song_guessed']:
                     if self.game['song_guesser'] == self.game['artist_guesser']:
                         self.game[self.game['song_guesser']]['score'] += 1
@@ -143,16 +147,15 @@ class MusicQuiz(commands.Cog, Musichandler):
 
     @commands.Cog.listener()
     async def on_voice_state_update(self, member, before, after):
-        if member == self.bot.user:  # Check if it's the bot
-            if before.channel is not None and after.channel is None and self.listening:
-                text_channel = member.guild.system_channel or member.guild.text_channels[0]  # Get system channel or first text channel
-                if text_channel:
-                    async for message in text_channel.history(limit=1):  # Get the latest message
-                        ctx = await self.bot.get_context(message)  # Create a ctx object from that message
-                        if ctx.valid:
-                            await self.reset(ctx)
-                            await ctx.send("The bilster got disconnected from the voice channel\n terminated the music quiz")  # Use ctx.send()
-
+        if member.id != self.bot.user.id:
+            return
+        text_channel = discord.utils.get(member.guild.text_channels, name=self.game['channel'])
+        if not text_channel:
+            return
+        if not self.listening:
+            message = await text_channel.send("The bilster got disconnected from the voice")
+            ctx = self.bot.get_context(message)
+            self.reset(ctx)
 
 
     @commands.command(name="pass")
@@ -167,6 +170,9 @@ class MusicQuiz(commands.Cog, Musichandler):
             if self.game['passes'] >= threshhold: 
                 self.game['passes'] = 0
                 await ctx.send("the bilster is skipping the song...")
+                if ctx.voice_client is None:
+                    await ctx.send("THE BILSTER IS NOT IN A VOICE CONNECTION WITH YOU!")
+                    return
                 ctx.voice_client.stop()
                 return
             else:
@@ -176,7 +182,6 @@ class MusicQuiz(commands.Cog, Musichandler):
         return
  
     async def end_of_song(self, ctx):
-        
         if self.song is not None:
             song = self.song
             self.song =  None
@@ -231,10 +236,19 @@ class MusicQuiz(commands.Cog, Musichandler):
                 break
         embed.description = "Song is done"
         await message.edit(embed=embed)
-    
+
+    def infinite(self):
+        if self.song_number == self.song_queue_length - 1:
+            self.song_number = 0
+            print(self.song_number)
+            self.setSongs()
+
+
     async def start_song(self, ctx):
         await self.end_of_song(ctx)
         if self.song_queue:
+            if self.game["gamemode"] == "infinite":
+                self.infinite()
             self.song_number += 1
             await self.reset_round(ctx)
             self.song = self.song_queue.popleft()
@@ -265,7 +279,10 @@ class MusicQuiz(commands.Cog, Musichandler):
 
         for member in ctx.author.voice.channel.members:
             if member.name != self.bot.user.name:
-                self.game[member.name]['passed'] = False
+                try:
+                    self.game[member.name]['passed'] = False
+                except KeyError:
+                    pass
 
     async def send_info_db(self):
         try:
