@@ -12,6 +12,7 @@ class ReloadHandler(FileSystemEventHandler):
             print(f"🔄 Detected change in {event.src_path}, restarting bot...")
             self.restart()
 
+
     def restart(self):
         global bot_process
         if bot_process:
